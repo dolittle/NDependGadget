@@ -267,6 +267,7 @@
     <Compile Include="Configurator.cs" />
     <Compile Include="ContainerCreator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UploadNDependTrend.cs" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
