@@ -1,8 +1,11 @@
 ﻿<div class="container">
     <div class="row">
-        <div class="col-sm-6 col-md-4">
+        <div class="col-md-8">
             <div class="thumbnail tile tile-green-sea tile-large">
-                <div data-bind="lineChart: { title: 'Trend', width: 300, height: 300, data: trend }"></div>
+                <div data-bind="lineChart: { title: 'Trend', width: 300, height: 300, data: trend, columns: [
+                        ['string', 'x'], ['number','asdasd'],
+                        ['string', 'xx'], ['number','aerwer']
+                        ] }"></div>
             </div>
         </div>
     </div>

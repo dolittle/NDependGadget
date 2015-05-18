@@ -12,15 +12,21 @@ ko.bindingHandlers.lineChart = {
             animation: {
                 duration: 1000,
                 easing: 'out'
-            }
+            },
+            columns: optionsInput.columns || [
+                ["string", "x"],
+                ["number", "y"]
+            ]
         };
 
         var dataHash = {};
 
         var chart = new google.visualization.LineChart(element);
         var data = new google.visualization.DataTable();
-        data.addColumn('string', 'x');
-        data.addColumn('number', 'y');
+
+        options.columns.forEach(function (column) {
+            data.addColumn(column[0], column[1]);
+        });
 
         function addRow(row, rowIndex) {
             var value = row[1];
