@@ -13,19 +13,25 @@ ko.bindingHandlers.lineChart = {
                 duration: 1000,
                 easing: 'out'
             },
-            columns: optionsInput.columns || [
-                ["string", "x"],
-                ["number", "y"]
-            ]
+            curveType: 'function',
+            legend: { position: 'bottom' },
+            x: optionsInput.x || { property: "", name: "" },
+            series: optionsInput.series || {
+
+            }
         };
 
+        var chart = new google.visualization.LineChart(element);
+
+        /*
         var dataHash = {};
 
-        var chart = new google.visualization.LineChart(element);
+        
         var data = new google.visualization.DataTable();
 
-        options.columns.forEach(function (column) {
-            data.addColumn(column[0], column[1]);
+        options.lines.forEach(function (line) {
+            data.addColumn(line.x.type, line.x.name);
+            data.addColumn(line.y.type, line.y.name);
         });
 
         function addRow(row, rowIndex) {
@@ -53,7 +59,37 @@ ko.bindingHandlers.lineChart = {
             });
 
             chart.draw(data, options);
+        });*/
+
+        var array = [];
+        var names = [];
+        names.push(options.x.name);
+        for (var serie in options.series) {
+            names.push(options.series[serie]);
+        }
+
+        array.push(names);
+
+        var inputData = ko.unwrap(optionsInput.data);
+        inputData.forEach(function (item) {
+            var row = [];
+            row.push(item[options.x.property]);
+            for (var serie in options.series) {
+                row.push(item[serie]);
+            }
+            array.push(row);
         });
+        
+        var data = google.visualization.arrayToDataTable(array);
+        /*
+        var data = google.visualization.arrayToDataTable([
+          ['Year', 'Sales', 'Expenses'],
+          ['2004', 1000, 400],
+          ['2005', 1170, 460],
+          ['2006', 660, 1120],
+          ['2007', 1030, 540]
+        ]);
+        */
 
         chart.draw(data, options);
     },
