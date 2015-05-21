@@ -1,12 +1,13 @@
 ﻿<div class="container">
     <div class="row">
 
-        <div data-bind="lineChart: {    title: 'Trend', 
+        <div data-bind="lineChart: {    title: 'Trend',
                                         data: trend,
                                         height: 500,
                                         x: { property: 'time', name: 'Time' },
                                         series: {
                                             numberOfRulesViolations: 'Number of Rules Violations',
+                                            averageCyclomaticComplexityForMethods: 'Average cyclomatic complexity for methods'
                                         }
                                 }"></div>
     </div>

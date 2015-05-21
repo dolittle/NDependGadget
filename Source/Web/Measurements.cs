@@ -22,10 +22,10 @@ namespace Web
             get
             {
                 return new[] {
-                    new Measurement("", DateTime.Now) { NumberOfRulesViolations = 42 },
-                    new Measurement("", DateTime.Now.AddDays(1)) { NumberOfRulesViolations = 44 },
-                    new Measurement("", DateTime.Now.AddDays(2)) { NumberOfRulesViolations = 49 },
-                    new Measurement("", DateTime.Now.AddDays(3)) { NumberOfRulesViolations = 41 }
+                    new Measurement("", DateTime.Now) { NumberOfRulesViolations = 42, AverageCyclomaticComplexityForMethods = 70, },
+                    new Measurement("", DateTime.Now.AddDays(1)) { NumberOfRulesViolations = 44, AverageCyclomaticComplexityForMethods = 73, },
+                    new Measurement("", DateTime.Now.AddDays(2)) { NumberOfRulesViolations = 49, AverageCyclomaticComplexityForMethods = 77, },
+                    new Measurement("", DateTime.Now.AddDays(3)) { NumberOfRulesViolations = 41, AverageCyclomaticComplexityForMethods = 90, }
                 }.AsQueryable();
             }
         }
