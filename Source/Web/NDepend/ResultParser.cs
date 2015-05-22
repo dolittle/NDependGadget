@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Xml.Linq;
-using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Web.NDepend
 {
@@ -98,15 +97,6 @@ namespace Web.NDepend
             }
             return measurements;
         }
-
-        EntityProperty GetEntityPropertyFromProperty(Measurement measurement, PropertyInfo property)
-        {
-            var value = property.GetValue(measurement);
-            var constructor = typeof(EntityProperty).GetConstructor(new Type[] { property.PropertyType });
-            if (constructor != null) return constructor.Invoke(new[] { value }) as EntityProperty;
-            return new EntityProperty(value.ToString());
-        }
-
 
         public Measurement GetLastFrom(Stream stream)
         {
