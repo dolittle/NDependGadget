@@ -286,12 +286,22 @@
     <Content Include="Scripts\jquery-2.1.3.min.map" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuildIdentifier.cs" />
     <Compile Include="Configurator.cs" />
     <Compile Include="ContainerCreator.cs" />
+    <Compile Include="NDepend\IRepository.cs" />
+    <Compile Include="NDepend\IResultParser.cs" />
+    <Compile Include="NDepend\IResults.cs" />
     <Compile Include="Measurement.cs" />
     <Compile Include="Measurements.cs" />
+    <Compile Include="NDepend\Repository.cs" />
+    <Compile Include="NDepend\ResultParser.cs" />
+    <Compile Include="NDepend\Results.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UploadNDependTrend.cs" />
+    <Compile Include="NDepend\Upload.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

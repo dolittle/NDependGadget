@@ -1,22 +1,16 @@
-﻿using System.Web;
-using System.Xml.Linq;
-using System.Linq;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Table;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System;
-using System.Text;
+using System.Linq;
 using System.Reflection;
+using System.Text;
+using System.Xml.Linq;
+using Microsoft.WindowsAzure.Storage.Table;
 
-namespace Web
+namespace Web.NDepend
 {
-    public class UploadNDependTrend : IHttpHandler
+    public class ResultParser : IResultParser
     {
-        public bool IsReusable
-        {
-            get { return true; }
-        }
-
         float[] GetValuesFrom(XElement element)
         {
             var values = element.Attribute("V");
@@ -61,8 +55,10 @@ namespace Web
         }
 
 
-        Measurement ParseAndGetLastMeasurement(string buildIdentifier, Stream stream)
+        IEnumerable<Measurement> Parse(Stream stream)
         {
+            var measurements = new List<Measurement>();
+
             var trendData = XDocument.Load(stream);
 
             var root = trendData.FirstNode as XElement;
@@ -77,16 +73,15 @@ namespace Web
             if (mElement != null)
             {
                 var rElementsQuery = mElement.Elements().Where(e => e.Name.LocalName == "R");
-                var last = rElementsQuery.LastOrDefault();
-                if (last != null)
+                foreach (var element in rElementsQuery)
                 {
-                    var values = GetValuesFrom(last);
+                    var values = GetValuesFrom(element);
 
                     var time = DateTime.Now;
-                    var dateAttribute = last.Attribute("D");
+                    var dateAttribute = element.Attribute("D");
                     if (dateAttribute != null) time = DateTime.Parse(dateAttribute.Value);
 
-                    var measurement = new Measurement(buildIdentifier, time);
+                    var measurement = new Measurement { Time = time };
                     var type = typeof(Measurement);
                     for (var valueIndex = 0; valueIndex < values.Length; valueIndex++)
                     {
@@ -98,10 +93,10 @@ namespace Web
                             property.SetValue(measurement, Convert.ChangeType(values[valueIndex], property.PropertyType));
                     }
 
-                    return measurement;
+                    measurements.Add(measurement);
                 }
             }
-            return null;
+            return measurements;
         }
 
         EntityProperty GetEntityPropertyFromProperty(Measurement measurement, PropertyInfo property)
@@ -112,45 +107,17 @@ namespace Web
             return new EntityProperty(value.ToString());
         }
 
-        public void ProcessRequest(HttpContext context)
+
+        public Measurement GetLastFrom(Stream stream)
         {
-            if (context.Request.Files.Count == 1)
-            {
-                var file = context.Request.Files[0];
+            var measurements = Parse(stream);
+            return measurements.LastOrDefault();
+        }
 
-                var buildIdentifier = context.Request.Form["BuildIdentifier"];
-                if (string.IsNullOrEmpty(buildIdentifier))
-                {
-                    buildIdentifier = "Default";
-                }
-
-                var measurement = ParseAndGetLastMeasurement(buildIdentifier, file.InputStream);
-                if (measurement != null)
-                {
-                    var account = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=ndependvisualizer;AccountKey=Mdf7RkUa9luB43JBwhRdzyiMfskltIVHz8Vw+u1gelB+r7Iacqo3xACrjkPrrSoL5SzUuW43le5GDYexMSzkuA==");
-
-                    var tableClient = account.CreateCloudTableClient();
-                    var table = tableClient.GetTableReference("measurements");
-                    table.CreateIfNotExists();
-
-                    var tableEntityValues = measurement.GetType().GetProperties().ToDictionary(p=>p.Name, p => GetEntityPropertyFromProperty(measurement,p));
-                    var time = measurement.Time.ToString("yyyyMMddhhmm");
-                    var tableEntity = new DynamicTableEntity(buildIdentifier, time)
-                    {
-                        ETag = "*",
-                        Properties = tableEntityValues
-                    };
-
-                    var operation = TableOperation.InsertOrReplace(tableEntity);
-                    table.Execute(operation);
-                }
-
-                
-                context.Response.Write("You uploaded " + file.FileName+" with "+file.ContentLength+" bytes");
-
-            } else {
-                context.Response.Write("OK");
-            }
+        public IEnumerable<Measurement> GetAllFrom(Stream stream)
+        {
+            var measurements = Parse(stream);
+            return measurements;
         }
     }
 }

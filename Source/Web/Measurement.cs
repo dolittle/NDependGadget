@@ -1,19 +1,11 @@
 ﻿using System;
 using Bifrost.Read;
-using Microsoft.WindowsAzure.Storage.Table;
 
 namespace Web
 {
-    public class Measurement : IReadModel
+    public class Measurement : IReadModel, IEquatable<Measurement>
     {
-        public Measurement(string build, DateTime time)
-        {
-            Build = build;
-            Time = time;
-        }
-
-        public string Build { get; private set; }
-        public DateTime Time { get; private set; }
+        public DateTime Time { get; set; }
 
         public int NumberOfRules { get; set; }
         public int NumberOfRulesViolated { get; set; }
@@ -62,5 +54,11 @@ namespace Web
         public int NumberOfThirdPartyTypesUsed { get; set; }
         public int NumberOfThirdPartyMethodsUsed { get; set; }
         public int NumberOfThirdPartyFieldsUsed { get; set; }
+
+
+        public bool Equals(Measurement other)
+        {
+            return other.Time == Time;
+        }
     }
 }
