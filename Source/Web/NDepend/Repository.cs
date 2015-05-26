@@ -44,7 +44,7 @@ namespace Web.NDepend
         public void Save(BuildIdentifier buildIdentifier, IEnumerable<Measurement> measurements)
         {
             var all = MergeWithExisting(buildIdentifier, measurements);
-            _measurementsPerBuild[buildIdentifier] = measurements;
+            _measurementsPerBuild[buildIdentifier] = all;
             SerializeAndWriteToDisk(buildIdentifier, all);
         }
 
