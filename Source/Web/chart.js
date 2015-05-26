@@ -1,7 +1,13 @@
 ﻿Bifrost.namespace("Web", {
-    chart: Bifrost.views.ViewModel.extend(function (measurements) {
-
+    chart: Bifrost.views.ViewModel.extend(function (measurements, trendHub) {
+        var self = this;
         this.trend = measurements.all();
+
+        trendHub.client(function (client) {
+            client.trendUpdated = function () {
+                self.trend.execute();
+            };
+        });
 
         /*
         this.trend = ko.observableArray([

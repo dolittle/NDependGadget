@@ -7,6 +7,7 @@ using System.IO;
 using System;
 using System.Text;
 using System.Reflection;
+using Microsoft.AspNet.SignalR;
 
 namespace Web
 {
@@ -145,6 +146,8 @@ namespace Web
                     table.Execute(operation);
                 }
 
+                var trendHub = GlobalHost.ConnectionManager.GetHubContext<TrendHub>();
+                trendHub.Clients.All.trendUpdated();
                 
                 context.Response.Write("You uploaded " + file.FileName+" with "+file.ContentLength+" bytes");
 
