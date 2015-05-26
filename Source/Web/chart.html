@@ -1,14 +1,57 @@
-﻿<div class="container">
+﻿<style>
+    .container {
+        position: absolute;
+
+        -webkit-transition: opacity 1s ease-in-out;
+        -moz-transition: opacity 1s ease-in-out;
+        -o-transition: opacity 1s ease-in-out;
+        transition: opacity 1s ease-in-out;
+    }
+
+    .containerHidden {
+        opacity: 0;
+    }
+
+
+    .trendingUp {
+        transform: rotate(-25deg);
+        color: green;
+    }
+
+    .trendingDown {
+        transform: rotate(25deg);
+        color: red;
+
+    }
+
+    .arrow {
+        font-size: 200px; 
+        position: relative; 
+        top: 150px;
+    }
+</style>
+
+
+<div class="container">
     <div class="row">
 
-        <div data-bind="lineChart: {    title: 'Trend',
+        <div class="container"
+             data-bind="lineChart: {    title: 'Trend',
                                         data: trend,
                                         height: 500,
                                         x: { property: 'time', name: 'Time' },
                                         series: {
                                             numberOfRulesViolations: 'Number of Rules Violations',
-                                            averageCyclomaticComplexityForMethods: 'Average cyclomatic complexity for methods'
+                                            numberOfCriticalRulesViolations: 'Number of Critical Rules Violations'
                                         }
-                                }"></div>
+                         }, css : { 'containerHidden' : showingTrend() == false }"></div>
+
+
+        <div class="container"
+             data-bind="css : { 'containerHidden' : showingTrend() == true }"
+             style="text-align: center; vertical-align: middle;">
+            <span class="glyphicon glyphicon-arrow-right arrow"
+                  data-bind="css: { 'trendingUp' : trendingDirection() == 'up', 'trendingDown' : trendingDirection() == 'down' }"></span>
+        </div>
     </div>
 </div>

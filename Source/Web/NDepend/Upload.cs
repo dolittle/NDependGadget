@@ -1,5 +1,6 @@
 ﻿using System.Web;
 using Bifrost.Configuration;
+using Microsoft.AspNet.SignalR;
 
 namespace Web.NDepend
 {
@@ -33,6 +34,9 @@ namespace Web.NDepend
                 }
 
                 _results.MergeWith(buildIdentifier, file.InputStream);
+
+                var trendHub = GlobalHost.ConnectionManager.GetHubContext<TrendHub>();
+                trendHub.Clients.All.changed();
             } else {
                 context.Response.Write("OK");
             }
