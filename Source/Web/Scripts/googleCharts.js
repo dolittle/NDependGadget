@@ -39,7 +39,8 @@ ko.bindingHandlers.lineChart = {
             var row = [];
             row.push(item[options.x.property]);
             for (var serie in options.series) {
-                row.push(item[serie]);
+                var value = item[serie] || 0;
+                row.push(value);
             }
             array.push(row);
         });
