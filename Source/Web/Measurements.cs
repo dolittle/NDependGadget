@@ -19,7 +19,7 @@ namespace Web
         {
             get
             {
-                return _results.GetAll(BuildIdentifier).AsQueryable();
+                return _results.GetAll(BuildIdentifier).AsQueryable().OrderBy(measurement=>measurement.Time);
             }
         }
     }
