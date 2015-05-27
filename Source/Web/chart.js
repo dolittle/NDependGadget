@@ -34,6 +34,6 @@
 
         setInterval(function () {
             self.showingTrend(self.showingTrend() == true ? false: true);
-        },2000);
+        },10000);
     })
 });
