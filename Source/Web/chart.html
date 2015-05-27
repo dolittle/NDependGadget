@@ -18,6 +18,12 @@
         color: green;
     }
 
+    .trendingMiddle {
+        transform: rotate(0);
+        color: blue;
+
+    }
+
     .trendingDown {
         transform: rotate(25deg);
         color: red;
@@ -51,7 +57,7 @@
              data-bind="css : { 'containerHidden' : showingTrend() == true }"
              style="text-align: center; vertical-align: middle;">
             <span class="glyphicon glyphicon-arrow-right arrow"
-                  data-bind="css: { 'trendingUp' : trendingDirection() == 'up', 'trendingDown' : trendingDirection() == 'down' }"></span>
+                  data-bind="css: { 'trendingUp' : trendingDirection() == 'up', 'trendingDown' : trendingDirection() == 'down', 'trendingMiddle' : trendingDirection() == 'middle' }"></span>
         </div>
     </div>
 </div>
