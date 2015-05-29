@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System.Net;
+using System.Web;
 using Bifrost.Configuration;
 using Microsoft.AspNet.SignalR;
 
@@ -37,8 +38,13 @@ namespace Web.NDepend
 
                 var trendHub = GlobalHost.ConnectionManager.GetHubContext<TrendHub>();
                 trendHub.Clients.All.changed();
+
+                context.Response.Write(string.Format("File '{0}' uploaded, parsed and published", file));
+                context.Response.StatusCode = (int)HttpStatusCode.OK;
+
             } else {
-                context.Response.Write("OK");
+                context.Response.Write("No Files Posted");
+                context.Response.StatusCode = (int)HttpStatusCode.OK;
             }
         }
     }
