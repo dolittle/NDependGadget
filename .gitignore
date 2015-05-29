@@ -29,6 +29,7 @@ Source/Bifrost.QuickStart/App_Data
 *.cache
 TestResults/*
 NDependOut
+App_Data
 
 # OS generated files #
 ######################
