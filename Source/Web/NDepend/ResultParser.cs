@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -15,7 +16,7 @@ namespace Web.NDepend
             var values = element.Attribute("V");
             if (values == null) return new float[0];
 
-            return values.Value.Split('|').Select(v => float.Parse(v)).ToArray();
+            return values.Value.Split('|').Select(v => float.Parse(v, CultureInfo.InvariantCulture)).ToArray();
         }
 
         string GetPropertyNameFromRuleName(string ruleName)
@@ -78,7 +79,7 @@ namespace Web.NDepend
 
                     var time = DateTime.Now;
                     var dateAttribute = element.Attribute("D");
-                    if (dateAttribute != null) time = DateTime.Parse(dateAttribute.Value);
+                    if (dateAttribute != null) time = DateTime.Parse(dateAttribute.Value, CultureInfo.InvariantCulture);
 
                     var measurement = new Measurement { Time = time };
                     var type = typeof(Measurement);
