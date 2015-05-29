@@ -30,8 +30,6 @@
             };
         });
 
-        
-
         setInterval(function () {
             self.showingTrend(self.showingTrend() == true ? false: true);
         },10000);
