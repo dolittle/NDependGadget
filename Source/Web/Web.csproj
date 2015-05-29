@@ -247,6 +247,7 @@
     <Content Include="Content\metro-bootstrap\labels.less" />
     <Content Include="Content\metro-bootstrap\checkbox.less" />
     <Content Include="Content\metro-bootstrap\alerts.less" />
+    <None Include="Properties\PublishProfiles\Build Server.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
