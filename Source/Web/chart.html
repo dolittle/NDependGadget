@@ -1,7 +1,6 @@
 ﻿<style>
     .container {
         position: absolute;
-
         -webkit-transition: opacity 1s ease-in-out;
         -moz-transition: opacity 1s ease-in-out;
         -o-transition: opacity 1s ease-in-out;
@@ -29,7 +28,6 @@
         -ms-transform: rotate(0);
         -o-transform: rotate(0);
         color: blue;
-
     }
 
     .trendingDown {
@@ -42,20 +40,30 @@
     }
 
     .arrow {
-        font-size: 200px; 
-        position: relative; 
-        top: 150px;
+        font-size: 200px;
+        margin: auto;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+
+    .fill {
+        position: absolute;
+        top: 8px;
+        bottom: 8px;
+        width: 100%;
     }
 </style>
 
 
-<div class="container">
-    <div class="row">
 
-        <div class="container"
-             data-bind="lineChart: {    title: 'Trend',
+<div class="fill"
+     data-bind="lineChart: {    title: 'Trend',
                                         data: trend,
-                                        height: 500,
+                                        width: '100%',
+                                        height: '100%',
                                         x: { property: 'time', name: 'Time' },
                                         series: {
                                             numberOfRulesViolations: 'Number of Rules Violations',
@@ -64,11 +72,9 @@
                          }, css : { 'containerHidden' : showingTrend() == false }"></div>
 
 
-        <div class="container"
-             data-bind="css : { 'containerHidden' : showingTrend() == true }"
-             style="text-align: center; vertical-align: middle;">
-            <span class="glyphicon glyphicon-arrow-right arrow"
-                  data-bind="css: { 'trendingUp' : trendingDirection() == 'up', 'trendingDown' : trendingDirection() == 'down', 'trendingMiddle' : trendingDirection() == 'middle' }"></span>
-        </div>
-    </div>
+<div class="arrow"
+     data-bind="css : { 'containerHidden' : showingTrend() == true }"
+     style="text-align: center; vertical-align: middle;">
+    <span class="glyphicon glyphicon-arrow-right"
+          data-bind="css: { 'trendingUp' : trendingDirection() == 'up', 'trendingDown' : trendingDirection() == 'down', 'trendingMiddle' : trendingDirection() == 'middle' }"></span>
 </div>
